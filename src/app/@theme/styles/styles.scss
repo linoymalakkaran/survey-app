@@ -1,0 +1,115 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap");
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+
+// themes - our custom or/and out of the box themes
+@import "themes";
+
+// framework component themes (styles tied to theme variables)
+@import "~@nebular/theme/styles/globals";
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/grid";
+
+// $fa-font-path: '../../../../node_modules/font-awesome/fonts';
+@import "~font-awesome/scss/font-awesome";
+@import "@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+// loading progress bar theme
+@import "./pace.theme";
+
+@import "./layout";
+@import "./overrides";
+
+@import "../../../../node_modules/ag-grid-community/src/styles/ag-grid.scss";
+@import "../../../../node_modules/ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin.scss";
+
+.ag-theme-alpine {
+  @include ag-theme-alpine();
+}
+
+// install the framework and custom global styles
+@include nb-install() {
+  // framework global styles
+  @include nb-theme-global();
+
+  @include ngx-layout();
+  // loading progress bar
+  @include ngx-pace-theme();
+
+  @include nb-overrides();
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b7b3b3 !important;
+  border-radius: 1 / 2 !important;
+}
+
+::-webkit-scrollbar-track {
+  background: #b7b3b3;
+}
+
+.full-screen {
+  height: 100vh !important;
+  width: 100vw !important;
+}
+
+.full-screen nb-card {
+  height: 100vh !important;
+  width: 100vw !important;
+}
+
+.fa-smile-o:before {
+  content: "" !important;
+}
+
+.fa-star:before {
+  content: "" !important;
+}
+.formio-form nav{
+  display: none !important;
+}
+.list-inline-item .btn-wizard-nav-cancel
+{
+  display: none;
+}
+formio-alerts .ng-star-inserted
+{
+  display: none;
+}
+.clearable {
+  background: #fff
+    url(data:image/gif;base64,R0lGODlhBwAHAIAAAP///5KSkiH5BAAAAAAALAAAAAAHAAcAAAIMTICmsGrIXnLxuDMLADs=)
+    no-repeat right -10px center;
+  border: 1px solid #999;
+  padding: 3px 18px 3px 4px; /* Use the same right padding (18) in jQ! */
+  border-radius: 3px;
+  transition: background 0.4s;
+}
+.clearable.x {
+  background-position: right 5px center;
+}
+.clearable.onX {
+  cursor: pointer;
+}
+.clearable::-ms-clear {
+  display: none;
+  width: 0;
+  height: 0;
+}

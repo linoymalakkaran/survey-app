@@ -1,0 +1,50 @@
+<div class="header-container">
+  <div class="logo-container">
+    <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
+      <nb-icon icon="menu-2-outline"></nb-icon>
+    </a>
+    <div>
+      <a class="logo" (click)="navigateHome()">
+        <img
+          class="log-container"
+          src="{{logoImageUrl}}"
+        /><br />
+        </a
+      ><br />
+    </div>
+  </div>
+  <!-- <ngx-layout-direction-switcher class="direction-switcher"></ngx-layout-direction-switcher> -->
+</div>
+
+<div class="header-container">
+  <!-- <nb-select
+    [selected]="currentTheme"
+    (selectedChange)="changeTheme($event)"
+    status="primary"
+  >
+    <nb-option *ngFor="let theme of themes" [value]="theme.value">
+      {{ theme.name }}</nb-option
+    >
+  </nb-select> -->
+  <nb-actions size="small">
+    <!-- <nb-action class="control-item">
+      <nb-search type="rotate-layout"></nb-search>
+    </nb-action> -->
+    <!-- <nb-action class="control-item" icon="email-outline"></nb-action> -->
+    <nb-action class="control-item" icon="bell-outline"></nb-action>
+    <!-- <nb-action class="user-action" *nbIsGranted="['view', 'user']">
+      <nb-user [nbContextMenu]="serviceProviderMenu" [name]="currentServiceProvider?.name" [picture]="serviceProvider?.picture">
+      </nb-user>
+    </nb-action> -->
+    <nb-action class="user-action">
+      <nb-user
+        [nbContextMenu]="userMenu"
+        [onlyPicture]="userPictureOnly"
+        [name]="user?.fullName"
+        [title]="user?.companyName"
+        [picture]="user?.image"
+      >
+      </nb-user>
+    </nb-action>
+  </nb-actions>
+</div>

@@ -1,0 +1,109 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-12">
+        <span>Survey User Submission</span>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="applicationType" class="label field-required"
+            >Survey Application</label
+          >
+          <nb-select
+            fullWidth
+            name="applicationType"
+            [(ngModel)]="searchModel.applicationType"
+            required
+          >
+            <nb-option
+              value="{{ item.Id }}"
+              *ngFor="let item of applicationTypes"
+              (click)="onSelectApplicationTypeFilter(item.Id)"
+              >{{ item?.Name }}</nb-option
+            >
+          </nb-select>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="surveyName" class="label field-required"
+            >Survey Name</label
+          >
+          <nb-select
+            fullWidth
+            name="surveyName"
+            [(ngModel)]="searchModel.surveyName"
+            required
+          >
+            <nb-option value="{{ item.Id }}" *ngFor="let item of surveyNames">{{
+              item?.Name
+            }}</nb-option>
+          </nb-select>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <button
+          style="margin-top: 1.57em; margin-right: 1em;"
+          type="button"
+          (click)="filterGrid()"
+          class="btn btn-outline-secondary"
+        >
+          <span class="fa fa-search"></span> Search
+        </button>
+        <button
+          style="margin-top: 1.57em;"
+          type="button"
+          (click)="resetFilter()"
+          class="btn btn-outline-secondary"
+        >
+          <span class="fa fa-refresh"></span> Reset
+        </button>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
+<survey-alert [alert]="alert" [alertTimeOutInSec]="5"></survey-alert>
+<nb-card *ngIf="submissionList">
+  <nb-card-body>
+    <ag-grid-angular
+      style="width: 100%; height: 600px;"
+      class="ag-theme-alpine survey-list"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef"
+      [gridOptions]="gridOptions"
+      [rowData]="submissionList"
+    >
+    </ag-grid-angular>
+  </nb-card-body>
+</nb-card>
+
+<ng-template #content let-modal style="width: 90%;">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Submission Details</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" id="formioBody">
+    <formio
+      [form]="surveyTemplate"
+      [submission]="surveyData"
+      [hideComponents]="['submit']"
+      [readOnly]="true"
+    ></formio>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close()">
+      Close
+    </button>
+  </div>
+</ng-template>

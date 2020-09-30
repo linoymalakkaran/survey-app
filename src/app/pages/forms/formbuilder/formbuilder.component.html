@@ -1,0 +1,75 @@
+<nb-card>
+  <nb-card-body>
+    <div class="row">
+          <div
+            class="col-md-1"
+            title="Create New Survey"
+            (click)="addnewform()"
+          >
+            <i
+              class="fa fa-plus-square create-survey-icon"
+              aria-hidden="true"
+            ></i>
+          </div>
+          <div class="col-md-7 create-survey-label">
+            {{ newSurveyLabel }}
+          </div>
+        <div class="col-md-4">
+          <button
+            style="float: right;"
+            (click)="ResetAllGridFilters()"
+            nbButton
+            outline
+            status="warning"
+          >
+            Reset Grid Filter
+          </button>
+        </div>
+    </div>
+  </nb-card-body>
+</nb-card>
+<div class="row">
+  <div class="col-md-12">
+    <survey-alert [alert]="alert" [alertTimeOutInSec]="5"></survey-alert>
+  </div>
+  <div class="col-md-12" *ngIf="forms.length > 0">
+    <ag-grid-angular
+      #agGrid
+      id="surveyGrid"
+      class="ag-theme-alpine survey-list"
+      [gridOptions]="surveyGridOptions"
+      [rowData]="forms"
+      [modules]="surveyModules"
+      [defaultColDef]="surveyColDef"
+    >
+    </ag-grid-angular>
+  </div>
+</div>
+<!--start excel grid -->
+<table [hidden]="true" id="excel-table">
+  <tr>
+    <th colspan="8">
+      <span style="font-weight: bold;">{{ surveyName }}</span>
+    </th>
+  </tr>
+  <tr>
+    <th>Company Name</th>
+    <th>User Name</th>
+    <th>Question</th>
+    <th>Answers</th>
+    <th>Survey Start Date</th>
+    <th>Survey End Date</th>
+    <th>Response Date</th>
+  </tr>
+  <tr *ngFor="let rep of surveyReport">
+    <td>{{ rep.CompanyName }}</td>
+    <td>{{ rep.UserName }}</td>
+    <td>{{ rep.Question }}</td>
+    <td>{{ rep.Answers }}</td>
+    <td>{{ rep.SurveyStartDate }}</td>
+    <td>{{ rep.SurveyEndDate }}</td>
+    <td>{{ rep.ResponseDate }}</td>
+  </tr>
+</table>
+<bootstrap-alert alertPosition="top-right"></bootstrap-alert>
+<!--end excel grid -->

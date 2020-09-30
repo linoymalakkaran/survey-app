@@ -1,0 +1,95 @@
+<div class="navbar">
+  <div class="container">
+    <div class="logo">
+      <a>
+        <img style="width: 13.2vw;"
+          src="{{ appBasePath }}/assets/images/mg-logo.svg"
+          width="280px"
+          alt="Maqta Gateway - Logo"
+        />
+      </a>
+    </div>
+  </div>
+</div>
+<div class="main-bg"></div>
+<div class="login-box h-100">
+  <div
+    class="row h-100 justify-content-center align-items-center animated fadeInLeft"
+    id="form-block"
+  >
+    <div class="col-8">
+      <div class="card blue-bot-border mb-3">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div class="col-6 login-left-box">
+              <div class="d-flex h-100">
+                <div class="col my-auto mb-4">
+                  <h4>MG Survey</h4>
+                  <p>
+                    Maqta Gateway Survey Application is the admin portal for
+                    creating surveys.You can design your survey with
+                    drag-and-drop survey tool, powerful logic, various question
+                    types, and pre-built survey templates.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <!-- <div *ngIf="isLoading" style="text-align: center;">
+                <app-loading-spinner></app-loading-spinner>
+              </div> -->
+              <form
+                [formGroup]="loginForm"
+                (ngSubmit)="login()"
+                *ngIf="!isLoading"
+              >
+                <div class="login-right-box">
+                  <div class="form-group">
+                    <label>User Name*</label>
+                    <input
+                      type="text"
+                      formControlName="userName"
+                      placeholder="Enter User Name"
+                      class="form-control"
+                      [ngClass]="{
+                        'is-invalid':
+                          submitted && loginForm.controls.userName.errors
+                      }"
+                    />
+                    <!-- <div *ngIf="submitted && loginForm.controls.userName.errors" class="text-danger">
+                      <div *ngIf="loginForm.controls.userName.errors.required">User Name is required</div>
+                    </div> -->
+                  </div>
+                  <div class="form-group">
+                    <label>Password*</label>
+                    <input
+                      type="password"
+                      formControlName="password"
+                      placeholder="Enter Password"
+                      class="form-control"
+                      [ngClass]="{
+                        'is-invalid':
+                          submitted && loginForm.controls.password.errors
+                      }"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <div class="col mt-4 plr0">
+                      <button
+                        type="submit"
+                        class="btn btn-primary btn-rounded btn-blue btn-img"
+                      >
+                        Login
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<bootstrap-alert alertPosition="top-right"></bootstrap-alert>

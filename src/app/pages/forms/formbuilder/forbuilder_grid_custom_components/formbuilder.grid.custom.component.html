@@ -1,0 +1,31 @@
+<a
+  *ngIf="canEdit"
+  title="Edit"
+  style="color: black; padding-right: 10px; cursor: pointer;"
+  (click)="editForm()"
+>
+  <i class="{{ params.editFormIcon }}"></i
+></a>
+<a
+  title="Clone the survey"
+  style="color: green; padding-right: 10px; cursor: pointer;"
+  (click)="clone()"
+>
+  <i class="{{ params.cloneIcon }}"></i
+></a>
+<a
+  *ngIf="canUnpublish"
+  title="Unpublish"
+  style="color: red; padding-right: 10px; cursor: pointer;"
+  (click)="suspendFormClick()"
+>
+  <i class="{{ params.suspendIcon }}"></i
+></a>
+<a
+  *ngIf="canDownloadSurveyResponse"
+  title="Download Report"
+  style="color: black; cursor: pointer;"
+  (click)="downloadReport()"
+>
+  <i class="{{ params.downloadicon }}"></i
+></a>

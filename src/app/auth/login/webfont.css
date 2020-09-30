@@ -1,0 +1,12 @@
+@charset "UTF-8";
+/* CSS Document */
+
+@font-face {
+  font-family: "Verdana";
+  src: url("fonts/Verdana.eot?#iefix") format("embedded-opentype"),
+    /* Modern Browsers */ url("fonts/Verdana.woff") format("woff"),
+    /* Modern Browsers */ url("fonts/Verdana.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+  text-rendering: optimizeLegibility;
+}

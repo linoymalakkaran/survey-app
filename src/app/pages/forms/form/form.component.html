@@ -1,0 +1,530 @@
+<form name="serviceForm">
+  <nb-card>
+    <nb-card-body>
+      <div class="row">
+        <div class="col-md-1">
+          <button
+            (click)="submit()"
+            id="saveButton"
+            nbButton
+            outline
+            status="primary"
+          >
+            Save
+          </button>
+        </div>
+        <div class="col-md-2">
+          <button (click)="cancel()" nbButton outline status="warning">
+            Cancel
+          </button>
+        </div>
+        <div class="col-md-9" *ngIf="formId">
+          <ng-container
+            *ngIf="isActiveSurvey; then isActiveSurvey; else isNotActiveSurvey"
+          >
+          </ng-container>
+          <ng-template #isActiveSurvey>
+            <button
+              style="float: right;"
+              (click)="publishAndUnPublishForm()"
+              id="publishAndUnPublishForm"
+              nbButton
+              outline
+              status="warning"
+            >
+              UnPublish
+            </button>
+          </ng-template>
+          <ng-template #isNotActiveSurvey>
+            <button
+              (click)="publishAndUnPublishForm()"
+              id="publishAndUnPublishForm"
+              nbButton
+              outline
+              status="warning"
+            >
+              Publish
+            </button>
+          </ng-template>
+        </div>
+      </div>
+    </nb-card-body>
+  </nb-card>
+  <survey-alert [alert]="alert" [alertTimeOutInSec]="5"></survey-alert>
+  <nb-card>
+    <nb-card-header>
+      <div class="row">
+        <div class="col-12">
+          <h1>{{ form.Name }}</h1>
+        </div>
+      </div>
+    </nb-card-header>
+    <nb-card-body>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="applicationTypes" class="label field-required"
+              >Survey Application</label
+            >
+            <nb-select
+              fullWidth
+              name="applicationTypes"
+              [(ngModel)]="form.Type"
+              required
+            >
+              <nb-option
+                value="{{ item.Name }}"
+                *ngFor="let item of applicationTypes"
+                >{{ item?.Name }}</nb-option
+              >
+            </nb-select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="formName" class="label field-required"
+              >Survey Name</label
+            >
+            <input
+              name="formName"
+              type="text"
+              [(ngModel)]="form.Name"
+              nbInput
+              fullWidth
+              id="formName"
+              placeholder="Survey Name"
+              required
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="formStartDate" class="label field-required"
+              >Survey Start Date</label
+            >
+            <mat-form-field color="accent" appearance="fill">
+              <!-- <mat-label>Inherited calendar color</mat-label> -->
+              <input
+                readonly
+                class="nb-input-text"
+                name="startDatePicker"
+                [(ngModel)]="form.StartDate"
+                matInput
+                [matDatepicker]="startDatePicker"
+                [min]="minDate"
+                [max]="maxDate"
+                (ngModelChange)="surveyStartDateChange($event)"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="startDatePicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #startDatePicker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="formEndDate" class="label field-required"
+              >Survey End Date</label
+            >
+            <mat-form-field color="color" appearance="fill">
+              <!-- <mat-label>Custom calendar color</mat-label> -->
+              <input
+                readonly
+                class="nb-input-text"
+                name="endDatePicker"
+                [(ngModel)]="form.EndDate"
+                matInput
+                [matDatepicker]="endDatePicker"
+                [min]="minSurveyEndDate"
+                [max]="maxDate"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="endDatePicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #endDatePicker color="primary"></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- <div class="col-md-6">
+          <div class="form-group">
+            <label for="formStartDate" class="label field-required"
+              >Survey Start Date</label
+            >
+            <mat-form-field>
+              <input
+                readonly
+                class="nb-input-text"
+                matInput
+                [ngxMatDatetimePicker]="startDatePicker"
+                name="startDatePicker"
+                [(ngModel)]="form.StartDate"
+                [min]="minDate"
+                [max]="maxDate"
+                [disabled]="disabled"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="startDatePicker"
+              ></mat-datepicker-toggle>
+              <ngx-mat-datetime-picker
+                #startDatePicker
+                [showSpinners]="showSpinners"
+                [showSeconds]="showSeconds"
+                [stepHour]="stepHour"
+                [stepMinute]="stepMinute"
+                [stepSecond]="stepSecond"
+                [touchUi]="touchUi"
+                [color]="color"
+                [enableMeridian]="enableMeridian"
+              >
+              </ngx-mat-datetime-picker>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="formEndDate" class="label field-required"
+              >Survey End Date</label
+            >
+            <mat-form-field>
+              <input
+                readonly
+                class="nb-input-text"
+                matInput
+                [(ngModel)]="form.EndDate"
+                [ngxMatDatetimePicker]="endDatePicker"
+                name="endDatePicker"
+                [min]="minDate"
+                [max]="maxDate"
+                [disabled]="disabled"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="endDatePicker"
+              ></mat-datepicker-toggle>
+              <ngx-mat-datetime-picker
+                #endDatePicker
+                [showSpinners]="showSpinners"
+                [showSeconds]="showSeconds"
+                [stepHour]="stepHour"
+                [stepMinute]="stepMinute"
+                [stepSecond]="stepSecond"
+                [touchUi]="touchUi"
+                [color]="color"
+                [enableMeridian]="enableMeridian"
+              >
+              </ngx-mat-datetime-picker>
+            </mat-form-field>
+          </div>
+        </div> -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="description" class="label field-required"
+              >Description</label
+            >
+            <input
+              name="description"
+              type="text"
+              [(ngModel)]="form.Description"
+              nbInput
+              fullWidth
+              id="description"
+              placeholder="Survey Description"
+            />
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+  </nb-card>
+</form>
+<nb-card>
+  <nb-card-body>
+    <nb-tabset (changeTab)="onChangeTab($event)">
+      <nb-tab tabTitle="Survey Form">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="formMode" class="label">Survey Display Mode</label>
+              <nb-select
+                fullWidth
+                (selectedChange)="setFormDisplay($event)"
+                name="formMode"
+                [(ngModel)]="form.Schema.display"
+              >
+                <nb-option value="form">Single Page</nb-option>
+                <nb-option value="wizard">Multiple Page</nb-option>
+              </nb-select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div style="float: right; margin-top: 28px;">
+              <button (click)="fullScreenEditor()" nbButton>
+                Popout designer
+              </button>
+              &nbsp;
+              <button (click)="showPreview()" id="previewButton" nbButton>
+                Preview
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <nb-card>
+              <nb-card-body>
+                <form-builder
+                  (change)="onChange($event)"
+                  #formbuilder
+                  [form]="form.Schema"
+                >
+                </form-builder>
+              </nb-card-body>
+            </nb-card>
+          </div>
+        </div>
+      </nb-tab>
+      <nb-tab tabTitle="Survey Access Management" *ngIf=false>
+        <nb-card *forRoles="['owner']">
+          <nb-card-header>
+            <div class="row">
+              <div class="col-12">
+                <label class="label"
+                  >User Roles and Survey Access Management</label
+                >
+              </div>
+            </div>
+          </nb-card-header>
+          <nb-card-body>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="surveyId" class="label">Schema Id</label>
+                  <input
+                    disabled
+                    readonly
+                    name="surveyId"
+                    type="text"
+                    [value]="currentSurvey.Id"
+                    nbInput
+                    fullWidth
+                    id="surveyId"
+                  />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="surveyName" class="label">Survey Name</label>
+                  <input
+                    disabled
+                    readonly
+                    name="surveyName"
+                    type="text"
+                    [value]="currentSurvey.Name"
+                    nbInput
+                    fullWidth
+                    id="surveyName"
+                  />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="secretKey" class="label">Secret Key</label>
+                  <input
+                    disabled
+                    readonly
+                    name="secretKey"
+                    type="text"
+                    [value]="currentSurvey.SecretKey"
+                    nbInput
+                    fullWidth
+                    id="secretKey"
+                  />
+                </div>
+              </div>
+            </div>
+          </nb-card-body>
+        </nb-card>
+      </nb-tab>
+      <nb-tab tabTitle="Form Schema" *ngIf=false>
+        <nb-card>
+          <nb-card-header>
+            <div class="row">
+              <div class="col-12">
+                <h1>{{ form.ValidationSchema?.Name }}</h1>
+              </div>
+            </div>
+          </nb-card-header>
+          <nb-card-body>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="schemaName" class="label">Schema Name</label>
+                  <input
+                    name="schemaName"
+                    type="text"
+                    [(ngModel)]="form.ValidationSchema.Name"
+                    nbInput
+                    fullWidth
+                    id="schemaName"
+                    placeholder="Schema Name"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="schemaCode" class="label">Code</label>
+                  <input
+                    name="schemaCode"
+                    type="text"
+                    [(ngModel)]="form.ValidationSchema.Code"
+                    nbInput
+                    fullWidth
+                    id="schemaCode"
+                    placeholder="Schema Code"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="schemaType" class="label">Schema Type</label>
+                  <nb-select
+                    fullWidth
+                    name="schemaType"
+                    [(ngModel)]="form.ValidationSchema.Type"
+                    required
+                  >
+                    <nb-option value="strict">Strict</nb-option>
+                    <nb-option value="extended">Extended</nb-option>
+                  </nb-select>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngFor="let field of schemaFields; index as i">
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="fieldName{{ i }}" class="label">Field Name</label>
+                  <input
+                    name="fieldName{{ i }}"
+                    type="text"
+                    [(ngModel)]="field.Name"
+                    nbInput
+                    fullWidth
+                    id="fieldName{{ i }}"
+                    placeholder="Field Name"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="path{{ i }}" class="label">Path</label>
+                  <input
+                    name="path{{ i }}"
+                    type="text"
+                    [(ngModel)]="field.Name"
+                    nbInput
+                    fullWidth
+                    id="path{{ i }}"
+                    placeholder="Field Name"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="fieldType{{ i }}" class="label">Field Type</label>
+                  <nb-select
+                    fullWidth
+                    name="fieldType{{ i }}"
+                    [(ngModel)]="field.ClrType"
+                    required
+                  >
+                    <nb-option value="string">string</nb-option>
+                    <nb-option value="boolean">boolean</nb-option>
+                    <nb-option value="int">int</nb-option>
+                    <nb-option value="long">long</nb-option>
+                    <nb-option value="decimal">decimal</nb-option>
+                    <nb-option value="double">double</nb-option>
+                    <nb-option value="datetime">datetime</nb-option>
+                    <nb-option value="timespan">timespan</nb-option>
+                  </nb-select>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="required{{ i }}" class="label">Required</label
+                  ><br />
+                  <nb-checkbox
+                    name="required{{ i }}"
+                    fullWidth
+                    [(ngModel)]="field.Required"
+                    id="required{{ i }}"
+                    placeholder="Required"
+                  >
+                  </nb-checkbox>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="maxLength{{ i }}" class="label">Max Length</label>
+                  <input
+                    name="maxLength{{ i }}"
+                    type="text"
+                    [(ngModel)]="field.MaxLength"
+                    nbInput
+                    fullWidth
+                    id="maxLength{{ i }}"
+                    placeholder="Max Length"
+                  />
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="validationRegx{{ i }}" class="label">Regx</label>
+                  <input
+                    name="validationRegx{{ i }}"
+                    type="text"
+                    [(ngModel)]="field.ValidationRegx"
+                    nbInput
+                    fullWidth
+                    id="validationRegx{{ i }}"
+                    placeholder="Regx"
+                  />
+                </div>
+              </div>
+            </div>
+          </nb-card-body>
+        </nb-card>
+      </nb-tab>
+    </nb-tabset>
+  </nb-card-body>
+</nb-card>
+
+<ng-template #previewTemplate let-data>
+  <nb-card size="medium" style="width: 90vw;">
+    <nb-card-body>
+      <formio
+        (submit)="onSubmit($event)"
+        (ready)="onReady($event)"
+        [form]="form.Schema"
+        (submitDone)="onSubmitDone($event)"
+      >
+      </formio>
+    </nb-card-body>
+  </nb-card>
+</ng-template>
+
+<ng-template #fullScreenTemplate let-data>
+  <nb-card size="medium" style="width: 90vw;">
+    <nb-card-body>
+      <form-builder [form]="form.Schema"></form-builder>
+    </nb-card-body>
+  </nb-card>
+</ng-template>
